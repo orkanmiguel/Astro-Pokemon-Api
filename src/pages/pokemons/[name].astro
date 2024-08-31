@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "@layouts/MainLayout.astro";
+import PokemonCard from "@components/pokemons/pokemonCard.astro";
+import { resolveModuleName } from "typescript";
+import type { PokemonListResponse } from "@interfaces/pokemons-list.response";
+
+export const getStaticPaths = (async() => {
+
+    const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+    const {results} = await resp.json() as PokemonListResponse;
+
+
+    return results.map(({name, url}) => ({
+        params: { name: name},
+        props: {name: name, url: url}
+    }))
+
+    
+  /*   return [
+        {params: {name:'bulbasaur'}, props: {name: 'bulbasaur', url:`https://pokeapi.co/api/v2/pokemon/1/`}},
+
+    ]; */
+}) satisfies GetStaticPaths;
+
+const {name} = Astro.params;
+const {url} = Astro.props;
+const id = url.split('/').at(-2);
+
+const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png` ;
+const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+---
+
+<MainLayout title=`Pokémon - #${id} ${name}` image={imageSrc}>
+    <section class="mt-10 mx mx-10 flex flex-col justify-center items-center">
+        <a href="/">Regresar</a>
+        <h1 class="text-3xl capitalize">{name}</h1>
+
+       
+
+        <PokemonCard name={name} url={url} isBig={true}/>
+
+        <audio controls class="mt-5">
+            <source src={audioSrc} type="audio/ogg"/>
+        </audio>
+    </section>
+   
+</MainLayout>
+
+<style>
+    a{
+        @apply hover:underline text-blue-500;
+    }
+</style>
