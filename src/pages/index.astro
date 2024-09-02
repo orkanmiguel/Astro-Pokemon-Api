@@ -1,5 +1,6 @@
 ---
 //codigo server side only - momento de construccion build time
+import Title from '@components/shared/title.astro';
 import PokemonCard from '../components/pokemons/pokemonCard.astro';
 import type {PokemonListResponse} from '../interfaces/pokemons-list.response'
 import MainLayout from "../layouts/MainLayout.astro";
@@ -12,8 +13,7 @@ console.log('data:', data);
 ---
 
 <MainLayout title={title}>
-	<h1>Listado de Pokémons</h1>
-	<hr/>
+	<Title>Listado de Pokémons</Title>
 
 <section aria-label="Listado de Pokemons"
 	class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-4 mt-5">

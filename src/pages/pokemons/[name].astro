@@ -4,6 +4,8 @@ import MainLayout from "@layouts/MainLayout.astro";
 import PokemonCard from "@components/pokemons/pokemonCard.astro";
 import { resolveModuleName } from "typescript";
 import type { PokemonListResponse } from "@interfaces/pokemons-list.response";
+import Title from "@components/shared/title.astro";
+import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async() => {
 
@@ -33,9 +35,17 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 
 <MainLayout title=`Pokémon - #${id} ${name}` image={imageSrc}>
     <section class="mt-10 mx mx-10 flex flex-col justify-center items-center">
-        <a href="/">Regresar</a>
-        <h1 class="text-3xl capitalize">{name}</h1>
-
+       <!--  <a href="/">Regresar</a> -->
+         <div class="flex flex-row">
+            <div>
+            <button onclick="history.back()" class="text-blue-500">Regresar</button>
+            <Title>{name}</Title>
+        </div>
+         <button id="btn-favorite" class="ml-4">
+            <Icon name="heart-outline" size={50}/>
+            <Icon  class="hidden" name="heart-full" size={50}/>
+         </button>
+        </div>
        
 
         <PokemonCard name={name} url={url} isBig={true}/>
@@ -50,5 +60,8 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 <style>
     a{
         @apply hover:underline text-blue-500;
+    }
+    #btn-favorite{
+        @apply hover:animate-pulse;
     }
 </style>
