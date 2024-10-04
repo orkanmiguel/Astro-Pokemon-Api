@@ -60,10 +60,12 @@ const audioSrc = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pok
 
 
 <script>
-interface FavoritePokemon {
+import type { FavoritePokemon } from "@interfaces/favorite-pokemons";
+
+/* interface FavoritePokemon {
     name:string;
     id:number;
-}
+} */
 
 
 
@@ -97,12 +99,22 @@ const btnFavorite = document.querySelector('#btn-favorite') as HTMLButtonElement
 if(!btnFavorite) return;
 
 const name = btnFavorite.dataset.name ?? '';
-const id = btnFavorite.dataset.id ?? '';
+const id = btnFavorite.dataset.id ?? ''; 
+const isFavorite = favoritePokemons.some((fav) => fav.name === name);
+
+
 console.log(name,' ',id);
 
 const heartOutline = btnFavorite.querySelector('[data-outline]') as HTMLElement;
 
 const heartFull = btnFavorite.querySelector('[data-full]') as HTMLElement;
+
+//funcion para mostrar o 
+if(isFavorite){
+    heartOutline.classList.add('hidden');
+    heartFull.classList.remove('hidden');
+}
+
 
 const toggleFavorite = () =>{
     const isFavorite = favoritePokemons.some((fav) => fav.name === name);
